@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InStyle Hub - Premium Fashion Tech Platform</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-gem"></i> InStyle Hub
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#designers" class="nav-link">Designers</a>
+                <a href="#visualization" class="nav-link">Visualize</a>
+                <a href="#testimonials" class="nav-link">Reviews</a>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn-login" onclick="openLoginModal()">Login</button>
+                <button class="btn-signup" onclick="openSignupModal()">Sign Up</button>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Style Yourself with Confidence</h1>
+            <p class="hero-subtitle">Discover designers, visualize outfits, and create your perfect look</p>
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="scrollTo('designers')">Explore Designers</button>
+                <button class="btn-secondary" onclick="scrollTo('visualization')">Get Styled</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="fashion-model">
+                <i class="fas fa-user-tie"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="section-header">
+            <h2>Why Choose InStyle Hub</h2>
+            <p>Everything you need for a premium fashion experience</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>Find Designers</h3>
+                <p>Search and filter through our curated collection of talented fashion designers</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>AI Outfit Suggestions</h3>
+                <p>Get personalized outfit recommendations based on your style preferences</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <h3>Mix & Match</h3>
+                <p>Preview clothes and accessories combinations before making decisions</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-calendar"></i>
+                </div>
+                <h3>Book Consultation</h3>
+                <p>Schedule personalized styling sessions with professional designers</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Designer Marketplace -->
+    <section id="designers" class="designer-marketplace">
+        <div class="section-header">
+            <h2>Discover Our Designers</h2>
+            <p>Meet extraordinary talents shaping the future of fashion</p>
+        </div>
+
+        <div class="search-filter">
+            <input type="text" id="designerSearch" placeholder="Search designers..." class="search-input" onkeyup="filterDesigners()">
+            <select id="designerFilter" class="filter-select" onchange="filterDesigners()">
+                <option value="all">All Specialties</option>
+                <option value="bridal">Bridal</option>
+                <option value="casual">Casual</option>
+                <option value="streetwear">Streetwear</option>
+                <option value="luxury">Luxury</option>
+            </select>
+        </div>
+
+        <div class="designer-grid" id="designerGrid">
+            <!-- Designers will be populated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Outfit Visualization -->
+    <section id="visualization" class="outfit-visualization">
+        <div class="section-header">
+            <h2>Visualize Your Perfect Look</h2>
+            <p>Mix and match to create your ideal outfit</p>
+        </div>
+
+        <div class="visualization-container">
+            <div class="upload-section">
+                <div class="upload-box">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Upload Your Photo</h3>
+                    <p>or select a model from our gallery</p>
+                    <button class="btn-primary" onclick="document.getElementById('photoUpload').click()">Choose Photo</button>
+                    <input type="file" id="photoUpload" accept="image/*" style="display:none;" onchange="handlePhotoUpload(event)">
+                </div>
+            </div>
+
+            <div class="outfit-customizer">
+                <div class="customizer-preview">
+                    <div class="preview-area" id="previewArea">
+                        <p>Your outfit preview will appear here</p>
+                    </div>
+                </div>
+
+                <div class="customizer-options">
+                    <h3>Customize Your Outfit</h3>
+                    
+                    <div class="option-group">
+                        <label>Top:</label>
+                        <select id="topSelect" onchange="updatePreview()">
+                            <option value="">Select a top</option>
+                            <option value="tshirt">T-Shirt</option>
+                            <option value="blouse">Blouse</option>
+                            <option value="shirt">Shirt</option>
+                            <option value="sweater">Sweater</option>
+                        </select>
+                    </div>
+
+                    <div class="option-group">
+                        <label>Bottom:</label>
+                        <select id="bottomSelect" onchange="updatePreview()">
+                            <option value="">Select a bottom</option>
+                            <option value="jeans">Jeans</option>
+                            <option value="skirt">Skirt</option>
+                            <option value="pants">Pants</option>
+                            <option value="shorts">Shorts</option>
+                        </select>
+                    </div>
+
+                    <div class="option-group">
+                        <label>Accessories:</label>
+                        <select id="accessoriesSelect" onchange="updatePreview()">
+                            <option value="">Select accessories</option>
+                            <option value="bag">Bag</option>
+                            <option value="jewelry">Jewelry</option>
+                            <option value="scarf">Scarf</option>
+                            <option value="belt">Belt</option>
+                        </select>
+                    </div>
+
+                    <button class="btn-primary" style="width: 100%; margin-top: 20px;">Connect with Designer</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="section-header">
+            <h2>How It Works</h2>
+            <p>Your journey to perfect style in 4 simple steps</p>
+        </div>
+
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Choose Your Style</h3>
+                <p>Explore our designers and browse their collections</p>
+            </div>
+            <div class="step-connector"></div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Get Recommendations</h3>
+                <p>Receive AI-powered outfit suggestions</p>
+            </div>
+            <div class="step-connector"></div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Connect with Designer</h3>
+                <p>Book a consultation with your favorite designer</p>
+            </div>
+            <div class="step-connector"></div>
+            
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Finalize Your Look</h3>
+                <p>Get your custom outfit tailored to perfection</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials">
+        <div class="section-header">
+            <h2>Real Transformations</h2>
+            <p>Stories from our satisfied customers</p>
+        </div>
+
+        <div class="testimonials-grid" id="testimonialsGrid">
+            <!-- Testimonials will be populated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-final">
+        <div class="cta-content">
+            <h2>Start Your Style Journey Today</h2>
+            <p>Join thousands of fashion enthusiasts and professional designers</p>
+            <button class="btn-primary btn-large" onclick="openSignupModal()">Join Now</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>InStyle Hub</h4>
+                <p>Your premium fashion-tech platform</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#designers">Designers</a></li>
+                    <li><a href="#visualization">Visualization</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#privacy">Privacy Policy</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-links">
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-pinterest"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 InStyle Hub. All rights reserved. | Crafted with <i class="fas fa-heart" style="color: #d64a6f;"></i> for fashion</p>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLoginModal()">&times;</span>
+            <h2>Welcome Back</h2>
+            
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="your@email.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="••••••••" required>
+                </div>
+                
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+            
+            <div class="divider">OR</div>
+            
+            <button class="btn-google" onclick="handleGoogleLogin()">
+                <i class="fab fa-google"></i> Login with Google
+            </button>
+            
+            <p class="modal-footer">
+                Don't have an account? <a href="#" onclick="switchModal()">Sign Up</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSignupModal()">&times;</span>
+            <h2>Join Us</h2>
+            
+            <div class="role-selector">
+                <button class="role-btn active" onclick="selectRole('customer')">I'm a Customer</button>
+                <button class="role-btn" onclick="selectRole('designer')">I'm a Designer</button>
+            </div>
+            
+            <form onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" placeholder="Your Name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="your@email.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="••••••••" required>
+                </div>
+                
+                <div class="form-group" id="designerSpecialty" style="display: none;">
+                    <label>Specialty</label>
+                    <select>
+                        <option>Select your specialty</option>
+                        <option>Bridal</option>
+                        <option>Casual</option>
+                        <option>Streetwear</option>
+                        <option>Luxury</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn-primary">Create Account</button>
+            </form>
+            
+            <p class="modal-footer">
+                Already have an account? <a href="#" onclick="switchModal()">Login</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Designer Modal -->
+    <div id="designerModal" class="modal">
+        <div class="modal-content designer-modal">
+            <span class="close" onclick="closeDesignerModal()">&times;</span>
+            <div id="designerModalContent">
+                <!-- Designer details will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

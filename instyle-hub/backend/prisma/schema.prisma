@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String   @id @default(uuid())
+  name     String
+  email    String   @unique
+  password String
+  role     String   @default("customer") // customer or designer
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  designer    Designer?
+  bookingsAsCustomer Booking[] @relation("customerBookings")
+  bookingsAsDesigner Booking[] @relation("designerBookings")
+  reviewsAsCustomer Review[] @relation("customerReviews")
+  reviewsAboutDesigner Review[] @relation("designerReviews")
+}
+
+model Designer {
+  id           String   @id @default(uuid())
+  userId       String   @unique
+  brandName    String
+  specialty    String   // bridal, casual, streetwear, luxury
+  bio          String   @db.Text
+  pricingRange String   // e.g., "$500-$2000"
+  rating       Float    @default(5.0)
+  followers    Int      @default(0)
+  projectCount Int      @default(0)
+  image        String   @default("👗") // emoji or image URL
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookings Booking[] @relation("designerBookings")
+  reviews  Review[]  @relation("designerReviews")
+}
+
+model Booking {
+  id        String   @id @default(uuid())
+  customerId String
+  designerId String
+  date      DateTime
+  status    String   @default("pending") // pending, confirmed, completed, cancelled
+  notes     String   @db.Text @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  customer User @relation("customerBookings", fields: [customerId], references: [id], onDelete: Cascade)
+  designer User @relation("designerBookings", fields: [designerId], references: [id], onDelete: Cascade)
+
+  @@unique([customerId, designerId, date])
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  customerId String
+  designerId String
+  rating    Float    // 1-5 stars
+  comment   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  customer User @relation("customerReviews", fields: [customerId], references: [id], onDelete: Cascade)
+  designer User @relation("designerReviews", fields: [designerId], references: [id], onDelete: Cascade)
+}
